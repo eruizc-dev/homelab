@@ -18,9 +18,9 @@ services:
     cap_add:
       - NET_ADMIN
     restart: unless-stopped
-  bitwarden:
-          #container_name: bitwarden
-    image: bitwarden_rs
+  vaultwarden:
+    container_name: vaultwarden
+    image: vaultwarden/server:latest
     environment:
       ROCKET_TLS: '{certs="/ssl/bitwarden.crt",key="/ssl/bitwarden.key"}' 
     ports:
