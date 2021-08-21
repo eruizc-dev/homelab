@@ -1,0 +1,32 @@
+version: '3.1'
+
+services:
+  pi-hole:
+    container_name: pi-hole
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp"
+      - "8080:80/tcp"
+      - "443:443/tcp"
+    environment:
+      TZ: 'America/Argentina/Buenos_Aires'
+    volumes:
+      - '/home/ubuntu/pi-hole/etc-pihole/:/etc/pihole/'
+      - '/home/ubuntu/pi-hole/etc-dnsmasq.d/:/etc/dnsmasq.d/'
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+  bitwarden:
+          #container_name: bitwarden
+    image: bitwarden_rs
+    environment:
+      ROCKET_TLS: '{certs="/ssl/bitwarden.crt",key="/ssl/bitwarden.key"}' 
+    ports:
+      - "8200:80"
+    volumes:
+      - '/bitwarden/data/:/data/'
+      - '/bitwarden/config/:/config'
+      - '/bitwarden/certificates/:/ssl/'
+    restart: unless-stopped
