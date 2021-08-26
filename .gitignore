@@ -1,3 +1,4 @@
 *
 !.gitignore
+!setup.sh
 !docker-compose.yml
