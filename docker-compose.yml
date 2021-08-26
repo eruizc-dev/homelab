@@ -13,8 +13,8 @@ services:
     environment:
       TZ: 'America/Argentina/Buenos_Aires'
     volumes:
-      - '/home/ubuntu/pi-hole/etc-pihole/:/etc/pihole/'
-      - '/home/ubuntu/pi-hole/etc-dnsmasq.d/:/etc/dnsmasq.d/'
+      - './pi-hole/etc-pihole/:/etc/pihole/'
+      - './pi-hole/etc-dnsmasq.d/:/etc/dnsmasq.d/'
     cap_add:
       - NET_ADMIN
     restart: unless-stopped
@@ -22,12 +22,60 @@ services:
   vaultwarden:
     container_name: vaultwarden
     image: vaultwarden/server:1.22.2
+    tty: true
+    stdin_open: true
     environment:
       ROCKET_TLS: '{certs="/ssl/bitwarden.crt",key="/ssl/bitwarden.key"}' 
     ports:
       - '8200:80'
     volumes:
-      - '/bitwarden/data/:/data/'
-      - '/bitwarden/config/:/config'
-      - '/bitwarden/certificates/:/ssl/'
+      - 'vaultwarden_data:/data/'
+      - './bitwarden/config/:/config'
+      - './bitwarden/certificates/:/ssl/'
     restart: unless-stopped
+
+  # Documentation: <https://docs.miguelndecarvalho.pt/projects/speedtest-exporter>
+  speedtest:
+    container_name: speedtest
+    image: miguelndecarvalho/speedtest-exporter:v2.8
+    tty: true
+    stdin_open: true
+    ports:
+      - '9798:9798'
+    restart: unless-stopped
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:v2.29.1
+    depends_on:
+      - speedtest
+    volumes:
+      - 'prometheus_data:/prometheus'
+      - './prometheus/:/etc/prometheus/'
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=90d'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - '9090:9090'
+    restart: unless-stopped
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    volumes:
+      - 'grafana_data:/var/lib/grafana'
+      - './grafana/provisioning/:/etc/grafana/provisioning/'
+    depends_on:
+      - prometheus
+    ports:
+      - '3000:3000'
+    restart: unless-stopped
+
+volumes:
+  vaultwarden_data: {}
+  grafana_data: {}
+  prometheus_data: {}
+
