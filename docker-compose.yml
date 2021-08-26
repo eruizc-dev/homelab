@@ -22,8 +22,6 @@ services:
   vaultwarden:
     container_name: vaultwarden
     image: vaultwarden/server:1.22.2
-    tty: true
-    stdin_open: true
     environment:
       ROCKET_TLS: '{certs="/ssl/bitwarden.crt",key="/ssl/bitwarden.key"}' 
     ports:
@@ -38,8 +36,6 @@ services:
   speedtest:
     container_name: speedtest
     image: miguelndecarvalho/speedtest-exporter:v2.8
-    tty: true
-    stdin_open: true
     ports:
       - '9798:9798'
     restart: unless-stopped
