@@ -3,3 +3,4 @@
 !setup.sh
 !docker-compose.yml
 !cadvisor/Dockerfile
+!prometheus/prometheus.yml
