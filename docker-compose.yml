@@ -36,8 +36,6 @@ services:
   speedtest:
     container_name: speedtest
     image: miguelndecarvalho/speedtest-exporter
-    ports:
-      - '9798:9798'
     restart: unless-stopped
 
   prometheus:
@@ -81,10 +79,6 @@ services:
       - '/var/run:/var/run:rw'
       - '/sys:/sys:ro'
       - '/var/lib/docker/:/var/lib/docker:ro'
-    ports:
-      - '8100:8080'
-    expose:
-      - '8080'
     restart: unless-stopped
 
 volumes:

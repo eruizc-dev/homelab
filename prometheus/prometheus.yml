@@ -28,4 +28,4 @@ scrape_configs:
     metrics_path: /metrics
     scrape_interval: 5s
     static_configs:
-      - targets: ['cadvisor:9100']
+      - targets: ['cadvisor:8080']
