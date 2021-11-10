@@ -41,8 +41,6 @@ services:
   prometheus:
     container_name: prometheus
     image: prom/prometheus
-    depends_on:
-      - speedtest
     volumes:
       - 'prometheus_data:/prometheus'
       - './prometheus/:/etc/prometheus/'
@@ -64,8 +62,6 @@ services:
     volumes:
       - 'grafana_data:/var/lib/grafana'
       - './grafana/provisioning/:/etc/grafana/provisioning/'
-    depends_on:
-      - prometheus
     ports:
       - '3000:3000'
     restart: unless-stopped
