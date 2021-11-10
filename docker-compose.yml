@@ -72,6 +72,21 @@ services:
       - '3000:3000'
     restart: unless-stopped
 
+  cadvisor:
+    build:
+      context: cadvisor
+    container_name: cadvisor
+    volumes:
+      - '/:/rootfs:ro'
+      - '/var/run:/var/run:rw'
+      - '/sys:/sys:ro'
+      - '/var/lib/docker/:/var/lib/docker:ro'
+    ports:
+      - '8100:8080'
+    expose:
+      - '8080'
+    restart: unless-stopped
+
 volumes:
   vaultwarden_data:
   grafana_data:
