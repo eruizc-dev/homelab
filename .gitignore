@@ -1,6 +1,6 @@
 *
 !.gitignore
-!setup.sh
+!README.md
 !docker-compose.yml
 !/cadvisor/
 !/prometheus/
