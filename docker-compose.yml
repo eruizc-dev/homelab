@@ -83,6 +83,18 @@ services:
       - '/dev/kmsg:/dev/kmsg'
     restart: unless-stopped
 
+  node_exporter:
+    container_name: node_exporter
+    image: quay.io/prometheus/node-exporter
+    container_name: node_exporter
+    command:
+      - '--path.rootfs=/host'
+    network_mode: host
+    pid: host
+    volumes:
+      - '/:/host:ro,rslave'
+    restart: unless-stopped
+
 volumes:
   vaultwarden_data:
   grafana_data:
