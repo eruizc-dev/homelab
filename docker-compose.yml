@@ -1,7 +1,7 @@
 version: '3.1'
 
 services:
-  pi-hole:
+  pihole:
     container_name: pi-hole
     image: pihole/pihole
     ports:
@@ -13,7 +13,7 @@ services:
     environment:
       TZ: 'America/Argentina/Buenos_Aires'
     volumes:
-      - './pi-hole/etc-pihole/:/etc/pihole/'
+      - 'pihole_data/:/etc/pihole/'
       - './pi-hole/etc-dnsmasq.d/:/etc/dnsmasq.d/'
     cap_add:
       - NET_ADMIN
@@ -96,6 +96,7 @@ services:
     restart: unless-stopped
 
 volumes:
+  pihole_data:
   vaultwarden_data:
   grafana_data:
   prometheus_data:
