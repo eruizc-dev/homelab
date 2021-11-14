@@ -95,8 +95,42 @@ services:
       - '/:/host:ro,rslave'
     restart: unless-stopped
 
+  qbittorrent:
+    container_name: qbittorrent
+    image: lscr.io/linuxserver/qbittorrent:arm64v8-latest
+    environment:
+      - UMASK=003
+      - PUID=1002 # qbittorrent
+      - PGID=1003 # downloads
+      - TZ=America/Argentina/Buenos_Aires
+      - WEBUI_PORT=8010
+    volumes:
+      - qbittorrent_config:/config
+      - /srv/dev-disk-by-uuid-86def75f-182c-4802-9f6a-b158f7df08b6/downloads:/downloads
+    ports:
+      - '6881:6881'
+      - '6881:6881/udp'
+      - '8010:8010'
+    restart: unless-stopped
+
+  youtubedl:
+    container_name: youtubedl
+    image: youtube-dl-nas
+    build:
+      context: youtubedl
+    environment:
+      - MY_ID=modenaf360
+      - MY_PW=1234
+      - TZ=America/Argentina/Buenos_Aires
+    volumes:
+      - /srv/dev-disk-by-uuid-86def75f-182c-4802-9f6a-b158f7df08b6/downloads:/downfolder
+    ports:
+      - '8020:8080'
+    restart: unless-stopped
+
 volumes:
   pihole_data:
   vaultwarden_data:
   grafana_data:
   prometheus_data:
+  qbittorrent_config:
