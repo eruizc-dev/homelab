@@ -1,6 +1,6 @@
 # Homelab
 
-Ultra compact home server machine
+Ultra compact home server machine, used for NAS and services
 
 ## Specs
 
@@ -18,7 +18,13 @@ Ultra compact home server machine
  - NAS: Open Media Vault 6
  - Container: Docker (check services in [docker-compose.yml](docker-compose.yml))
 
+## TODO:
+
 ## Installation guide:
+
+This is a rough guide on how to initially configure the sever. Security and
+specifics are not covered so instructions on groups, users, volumes and other
+are not provided.
 
 ### Open Media Vaul
 
@@ -51,7 +57,8 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install docker-ce docker-ce-cli containerd.io docker-compose
 ```
 
-Before running, you gotta disable `systemd-resolved` because it uses port 53 and conflicts with pihole
+Before running, you gotta disable `systemd-resolved` because it uses port 53 and
+conflicts with pihole
 
 ```bash
 systemctl stop systemd-resolved.service
