@@ -66,22 +66,22 @@ services:
       - '3000:3000'
     restart: unless-stopped
 
-  cadvisor:
-    image: cadvisor
-    container_name: cadvisor
-    command: --raw_cgroup_prefix_whitelist=/docker/
-    build:
-      context: cadvisor
-    privileged: true
-    volumes:
-      - '/:/rootfs:ro'
-      - '/var/run:/var/run:ro'
-      - '/sys:/sys:ro'
-      - '/var/lib/docker/:/var/lib/docker:ro'
-      - '/dev/disk/:/dev/disk:ro'
-    devices:
-      - '/dev/kmsg:/dev/kmsg'
-    restart: unless-stopped
+      #cadvisor:
+      #  image: cadvisor
+      #  container_name: cadvisor
+      #  command: --raw_cgroup_prefix_whitelist=/docker/
+      #  build:
+      #    context: cadvisor
+      #  privileged: true
+      #  volumes:
+      #    - '/:/rootfs:ro'
+      #    - '/var/run:/var/run:ro'
+      #    - '/sys:/sys:ro'
+      #    - '/var/lib/docker/:/var/lib/docker:ro'
+      #    - '/dev/disk/:/dev/disk:ro'
+      #  devices:
+      #    - '/dev/kmsg:/dev/kmsg'
+      #  restart: unless-stopped
 
   node_exporter:
     container_name: node_exporter
