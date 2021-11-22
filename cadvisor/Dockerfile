@@ -1,6 +1,7 @@
 FROM arm64v8/golang as build
 RUN apt update && apt install -y git dmsetup
 RUN git clone \
+    --branch release-v0.38 \
 	--depth 1 \
 	https://github.com/google/cadvisor.git \
 	/go/src/github.com/google/cadvisor
