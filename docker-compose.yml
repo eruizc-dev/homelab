@@ -69,7 +69,7 @@ services:
   cadvisor:
     image: cadvisor
     container_name: cadvisor
-    command: --raw_cgroup_prefix_whitelist=/docker/ --disable_metrics=hugetlb
+    command: --docker_only=true
     build:
       context: cadvisor
     privileged: true
