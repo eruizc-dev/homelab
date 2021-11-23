@@ -113,20 +113,30 @@ services:
       - '8010:8010'
     restart: unless-stopped
 
-  youtubedl:
-    container_name: youtubedl
-    image: youtube-dl-nas
-    build:
-      context: youtubedl
-    environment:
-      - MY_ID=modenaf360
-      - MY_PW=1234
-      - TZ=America/Argentina/Buenos_Aires
+  home-assistant:
+    container_name: home-assistant
+    image: ghcr.io/home-assistant/raspberrypi4-homeassistant:stable
     volumes:
-      - /srv/dev-disk-by-uuid-86def75f-182c-4802-9f6a-b158f7df08b6/downloads:/downfolder
-    ports:
-      - '8020:8080'
+      - homeassistant_config:/config
+      - /etc/localtime:/etc/localtime:ro
+    privileged: true
+    network_mode: host
     restart: unless-stopped
+
+      #youtubedl:
+      #  container_name: youtubedl
+      #  image: youtube-dl-nas
+      #  build:
+      #    context: youtubedl
+      #  environment:
+      #    - MY_ID=modenaf360
+      #    - MY_PW=1234
+      #    - TZ=America/Argentina/Buenos_Aires
+      #  volumes:
+      #    - /srv/dev-disk-by-uuid-86def75f-182c-4802-9f6a-b158f7df08b6/downloads:/downfolder
+      #  ports:
+      #    - '8020:8080'
+      #  restart: unless-stopped
 
 volumes:
   pihole_data:
@@ -134,3 +144,4 @@ volumes:
   grafana_data:
   prometheus_data:
   qbittorrent_config:
+  homeassistant_config:
