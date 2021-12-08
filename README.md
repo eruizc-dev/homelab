@@ -18,7 +18,19 @@ Ultra compact home server machine, used for NAS and services
  - NAS: Open Media Vault 6
  - Container: Docker (check services in [docker-compose.yml](docker-compose.yml))
 
-## TODO:
+## TODOs
+
+ 1. Backup data drive to the cloud (AWS Glacier maybe)
+ 2. SMTP server for vaultwarden emails and grafana alerts
+ 3. Home Assistant to be able to turn on/off my lights without having to connect to the internet
+ 4. Backup my volumes to the cloud (in form of daily snapshots, keep for a month):
+   <https://dev.to/hendr_ik/automate-backing-up-your-docker-volumes-3gdk>
+ 5. Backup system drive to the cloud (in form of weekly snapshots, keep for a month)
+ 6. Encrypt system and data drives
+ 7. Setup grafana alerts
+ 8. Uptime kuma <https://github.com/louislam/uptime-kuma> for checking service uptime (and send notifications)
+ 9. Get a UPS
+ 10. Setup VPN to access my services remotely
 
 ## Installation guide:
 
@@ -26,7 +38,7 @@ This is a rough guide on how to initially configure the sever. Security and
 specifics are not covered so instructions on groups, users, volumes and other
 are not provided.
 
-### Open Media Vaul
+### Open Media Vault
 
 I did it following this guide: <https://wiki.omv-extras.org/doku.php?id=installing_omv5_raspberry_pi>
 
