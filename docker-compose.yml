@@ -9,7 +9,7 @@ services:
       - '53:53/udp'
       - '67:67/udp'
       - '8080:80/tcp'
-      - '443:443/tcp'
+      - '8081:443/tcp'
     environment:
       TZ: 'America/Argentina/Buenos_Aires'
     volumes:
@@ -123,6 +123,20 @@ services:
     network_mode: host
     restart: unless-stopped
 
+  heimdall:
+    container_name: heimdall
+    image: lscr.io/linuxserver/heimdall
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Argentina/Buenos_Aires
+    volumes:
+      - heimdall_config:/config
+    ports:
+      - 80:80
+      - 443:443
+    restart: unless-stopped
+
       #youtubedl:
       #  container_name: youtubedl
       #  image: youtube-dl-nas
@@ -145,3 +159,4 @@ volumes:
   prometheus_data:
   qbittorrent_config:
   homeassistant_config:
+  heimdall_config:
