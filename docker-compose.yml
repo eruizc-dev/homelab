@@ -122,6 +122,7 @@ services:
     network_mode: host
     restart: unless-stopped
 
+  # Video guide: 
   heimdall:
     container_name: heimdall
     image: lscr.io/linuxserver/heimdall
@@ -136,6 +137,7 @@ services:
       - 443:443
     restart: unless-stopped
 
+  # Github: <https://github.com/itzg/docker-minecraft-server>
   minecraft:
     image: itzg/minecraft-server
     container_name: minecraft
@@ -173,6 +175,8 @@ services:
       MODS: 'https://github.com/timbru31/PasswordProtect/releases/download/PasswordProtect-3.1.0/PasswordProtect.jar'
     restart: unless-stopped
 
+  # Guide: <https://dev.to/hendr_ik/automate-backing-up-your-docker-volumes-3gdk>
+  # Github: <https://github.com/offen/docker-volume-backup>
   volume_backup:
     image: offen/docker-volume-backup:latest
     container_name: volume_backup
