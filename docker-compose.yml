@@ -204,6 +204,29 @@ services:
       - vaultwarden_data:/backup/vaultwarden_data:ro
     restart: unless-stopped
 
+  # Video guide: <https://www.youtube.com/watch?v=h_GGd7HfKQ8&>
+  loki:
+    image: grafana/loki
+    container_name: loki
+    command:
+      - '--config.file=/etc/loki/loki-config.yml'
+    volumes:
+      - ./loki/config:/etc/loki
+    ports:
+      - 3100:3100
+    restart: unless-stopped
+
+  # Video guide: <https://www.youtube.com/watch?v=h_GGd7HfKQ8&>
+  promtail:
+    image: grafana/promtail
+    container_name: promtail
+    command:
+      - '--config.file=/etc/promtail/promtail-config.yml'
+    volumes:
+      - /var/log:/var/log
+      - ./promtail/config:/etc/promtail
+    restart: unless-stopped
+
 volumes:
   heimdall_config: {}
   homeassistant_config: {}
