@@ -13,8 +13,8 @@ services:
     environment:
       TZ: 'America/Argentina/Buenos_Aires'
     volumes:
-      - 'pihole_data/:/etc/pihole/'
-      - './pi-hole/etc-dnsmasq.d/:/etc/dnsmasq.d/' # TODO: name and backup
+      - pihole_data:/etc/pihole
+      - pihole_config:/etc/dnsmasq.d
     cap_add:
       - NET_ADMIN
     restart: unless-stopped
@@ -199,6 +199,7 @@ services:
       # Volumes to backup
       - heimdall_config:/backup/heimdall_config:ro
       - homeassistant_config:/backup/homeassistant_config:ro
+      - pihole_config:/backup/pihole_config:ro
       - qbittorrent_config:/backup/qbittorrent_config:ro
       - grafana_data:/backup/grafana_data:ro
       - minecraft_data:/backup/minecraft_data:ro
@@ -232,6 +233,7 @@ services:
 volumes:
   heimdall_config: {}
   homeassistant_config: {}
+  pihole_config: {}
   qbittorrent_config: {}
   grafana_data: {}
   minecraft_data: {}
