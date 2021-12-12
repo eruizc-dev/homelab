@@ -179,16 +179,14 @@ services:
       MODS: 'https://github.com/timbru31/PasswordProtect/releases/download/PasswordProtect-3.1.0/PasswordProtect.jar'
     restart: unless-stopped
 
-  # Guide: <https://dev.to/hendr_ik/automate-backing-up-your-docker-volumes-3gdk>
   # Github: <https://github.com/offen/docker-volume-backup>
   volume_backup:
     image: offen/docker-volume-backup:latest
     container_name: volume_backup
+    env_file:
+      - ./volume_backup/aws_credentials.env
     environment:
       BACKUP_CRON_EXPRESSION: "0 4 * * *"
-      BACKUP_FILENAME: backup-%Y-%m-%dT%H-%M-%S.tar.gz
-      BACKUP_LATEST_SYMLINK: backup-latest.tar.gz
-      BACKUP_PRUNING_PREFIX: backup-
       BACKUP_RETENTION_DAYS: 7
     volumes:
       # Required to stop containers
