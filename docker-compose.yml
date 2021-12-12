@@ -17,6 +17,8 @@ services:
       - pihole_config:/etc/dnsmasq.d
     cap_add:
       - NET_ADMIN
+    labels:
+      - docker-volume-backup.stop-during-backup=false
     restart: unless-stopped
 
   vaultwarden:
@@ -29,6 +31,8 @@ services:
     volumes:
       - 'vaultwarden_data:/data/'
       - './bitwarden/certificates/:/ssl/'
+    labels:
+      - docker-volume-backup.stop-during-backup=true
     restart: unless-stopped
 
   # Documentation: <https://docs.miguelndecarvalho.pt/projects/speedtest-exporter>
@@ -80,6 +84,8 @@ services:
       - '/dev/disk/:/dev/disk:ro'
     devices:
       - '/dev/kmsg:/dev/kmsg'
+    labels:
+      - docker-volume-backup.stop-during-backup=false
     restart: unless-stopped
 
   node_exporter:
@@ -110,6 +116,8 @@ services:
       - '6881:6881'
       - '6881:6881/udp'
       - '8010:8010'
+    labels:
+      - docker-volume-backup.stop-during-backup=false
     restart: unless-stopped
 
   home-assistant:
@@ -120,6 +128,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
     privileged: true
     network_mode: host
+    labels:
+      - docker-volume-backup.stop-during-backup=false
     restart: unless-stopped
 
   # Video guide: 
@@ -135,6 +145,8 @@ services:
     ports:
       - 80:80
       - 443:443
+    labels:
+      - docker-volume-backup.stop-during-backup=false
     restart: unless-stopped
 
   # Github: <https://github.com/itzg/docker-minecraft-server>
@@ -177,6 +189,8 @@ services:
       CFG_DELAY-CHUNK-UNLOADS-BY: 10
       CFG_PREVENT_MOVING_INTO_UNLOADED_CHUNKS: 'true'
       MODS: 'https://github.com/timbru31/PasswordProtect/releases/download/PasswordProtect-3.1.0/PasswordProtect.jar'
+    labels:
+      - docker-volume-backup.stop-during-backup=true
     restart: unless-stopped
 
   # Github: <https://github.com/offen/docker-volume-backup>
