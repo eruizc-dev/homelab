@@ -171,6 +171,7 @@ services:
       # Paper config
       CFG_DELAY-CHUNK-UNLOADS-BY: 10
       CFG_PREVENT_MOVING_INTO_UNLOADED_CHUNKS: 'true'
+      MODS: 'https://github.com/timbru31/PasswordProtect/releases/download/PasswordProtect-3.1.0/PasswordProtect.jar'
 
       #youtubedl:
       #  container_name: youtubedl
