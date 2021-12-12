@@ -143,6 +143,10 @@ services:
     container_name: minecraft
     tty: true
     stdin_open: true
+    logging:
+      driver: syslog
+      options:
+        tag: "{{.Name}}"
     ports:
       - 25565:25565
     volumes:
