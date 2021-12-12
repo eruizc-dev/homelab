@@ -173,21 +173,6 @@ services:
       CFG_PREVENT_MOVING_INTO_UNLOADED_CHUNKS: 'true'
       MODS: 'https://github.com/timbru31/PasswordProtect/releases/download/PasswordProtect-3.1.0/PasswordProtect.jar'
 
-      #youtubedl:
-      #  container_name: youtubedl
-      #  image: youtube-dl-nas
-      #  build:
-      #    context: youtubedl
-      #  environment:
-      #    - MY_ID=modenaf360
-      #    - MY_PW=1234
-      #    - TZ=America/Argentina/Buenos_Aires
-      #  volumes:
-      #    - /srv/dev-disk-by-uuid-86def75f-182c-4802-9f6a-b158f7df08b6/downloads:/downfolder
-      #  ports:
-      #    - '8020:8080'
-      #  restart: unless-stopped
-
 volumes:
   pihole_data:
   vaultwarden_data:
