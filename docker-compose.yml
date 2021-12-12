@@ -137,6 +137,33 @@ services:
       - 443:443
     restart: unless-stopped
 
+  minecraft:
+    image: itzg/minecraft-server
+    tty: true
+    stdin_open: true
+    ports:
+      - 25565:25565
+    volumes:
+      - minecraft_data:/data
+    environment:
+      TYPE: "paper"
+      VERSION: "LATEST"
+      EULA: "TRUE"
+      ONLINE_MODE: "FALSE"
+      TZ: "America/Argentina/Buenos_Aires"
+      MIN_MEMORY: "1G"
+      MAX_MEMORY: "4G"
+      GUI: "FALSE"
+      SERVER_NAME: "Panteon"
+      DIFFICULTY: "hard"
+      OVERRIDE_ICON: "TRUE"
+      ICON: "https://i.ytimg.com/vi/fTZtmsTaijY/hqdefault.jpg"
+      FORCE_GAMEMODE: "true"
+      MODE: "creative"
+      MOTD: "Never gonna give you up"
+      OPS: "Emiliano,Xfrantin"
+
+
       #youtubedl:
       #  container_name: youtubedl
       #  image: youtube-dl-nas
@@ -160,3 +187,4 @@ volumes:
   qbittorrent_config:
   homeassistant_config:
   heimdall_config:
+  minecraft_data:
