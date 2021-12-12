@@ -139,6 +139,7 @@ services:
 
   minecraft:
     image: itzg/minecraft-server
+    container_name: minecraft
     tty: true
     stdin_open: true
     ports:
@@ -146,23 +147,24 @@ services:
     volumes:
       - minecraft_data:/data
     environment:
-      TYPE: "paper"
-      VERSION: "LATEST"
-      EULA: "TRUE"
-      ONLINE_MODE: "FALSE"
-      TZ: "America/Argentina/Buenos_Aires"
-      MIN_MEMORY: "1G"
-      MAX_MEMORY: "4G"
-      GUI: "FALSE"
-      SERVER_NAME: "Panteon"
-      DIFFICULTY: "hard"
-      OVERRIDE_ICON: "TRUE"
-      ICON: "https://i.ytimg.com/vi/fTZtmsTaijY/hqdefault.jpg"
-      FORCE_GAMEMODE: "true"
-      MODE: "creative"
-      MOTD: "Never gonna give you up"
-      OPS: "Emiliano,Xfrantin"
-
+      # Server
+      TZ: America/Argentina/Buenos_Aires
+      SERVER_NAME: Panteon
+      OVERRIDE_ICON: true
+      ICON: https://i.ytimg.com/vi/fTZtmsTaijY/hqdefault.jpg
+      MOTD: Never gonna give you up
+      EULA: true
+      # Gameplay
+      VERSION: 1.18.1
+      DIFFICULTY: hard
+      ONLINE_MODE: false
+      FORCE_GAMEMODE: true
+      MODE: creative
+      # Optimizations
+      TYPE: paper
+      GUI: false
+      MIN_MEMORY: 1G
+      MAX_MEMORY: 4G
 
       #youtubedl:
       #  container_name: youtubedl
