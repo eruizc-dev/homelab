@@ -148,23 +148,29 @@ services:
       - minecraft_data:/data
     environment:
       # Server
+      TYPE: paper
       TZ: America/Argentina/Buenos_Aires
       SERVER_NAME: Panteon
-      OVERRIDE_ICON: true
+      OVERRIDE_ICON: 'true'
       ICON: https://i.ytimg.com/vi/fTZtmsTaijY/hqdefault.jpg
       MOTD: Never gonna give you up
-      EULA: true
+      EULA: 'true'
       # Gameplay
       VERSION: 1.18.1
       DIFFICULTY: hard
-      ONLINE_MODE: false
-      FORCE_GAMEMODE: true
-      MODE: creative
+      ONLINE_MODE: 'false'
+      MODE: survival
+      FORCE_GAMEMODE: 'true'
       # Optimizations
-      TYPE: paper
-      GUI: false
+      GUI: 'false'
       MIN_MEMORY: 1G
       MAX_MEMORY: 4G
+      MAX_PLAYERS: 10
+      VIEW_DISTANCE: 12
+      NETWORK_COMPRESSION_THRESHOLD: 256
+      # Paper config
+      CFG_DELAY-CHUNK-UNLOADS-BY: 10
+      CFG_PREVENT_MOVING_INTO_UNLOADED_CHUNKS: 'true'
 
       #youtubedl:
       #  container_name: youtubedl
