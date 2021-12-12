@@ -14,7 +14,7 @@ services:
       TZ: 'America/Argentina/Buenos_Aires'
     volumes:
       - 'pihole_data/:/etc/pihole/'
-      - './pi-hole/etc-dnsmasq.d/:/etc/dnsmasq.d/'
+      - './pi-hole/etc-dnsmasq.d/:/etc/dnsmasq.d/' # TODO: name and backup
     cap_add:
       - NET_ADMIN
     restart: unless-stopped
@@ -28,7 +28,6 @@ services:
       - '8200:80'
     volumes:
       - 'vaultwarden_data:/data/'
-      - './bitwarden/config/:/config'
       - './bitwarden/certificates/:/ssl/'
     restart: unless-stopped
 
@@ -174,12 +173,39 @@ services:
       MODS: 'https://github.com/timbru31/PasswordProtect/releases/download/PasswordProtect-3.1.0/PasswordProtect.jar'
     restart: unless-stopped
 
+  volume_backup:
+    image: offen/docker-volume-backup:latest
+    container_name: volume_backup
+    environment:
+      BACKUP_CRON_EXPRESSION: "0 4 * * *"
+      BACKUP_FILENAME: backup-%Y-%m-%dT%H-%M-%S.tar.gz
+      BACKUP_LATEST_SYMLINK: backup-latest.tar.gz
+      BACKUP_PRUNING_PREFIX: backup-
+      BACKUP_RETENTION_DAYS: 7
+    volumes:
+      # Required to stop containers
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Required for timezone
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      # Local backup location
+      - /srv/dev-disk-by-uuid-86def75f-182c-4802-9f6a-b158f7df08b6/backups/system/pi/docker_volumes:/archive
+      # Volumes to backup
+      - heimdall_config:/backup/heimdall_config:ro
+      - homeassistant_config:/backup/homeassistant_config:ro
+      - qbittorrent_config:/backup/qbittorrent_config:ro
+      - grafana_data:/backup/grafana_data:ro
+      - minecraft_data:/backup/minecraft_data:ro
+      - pihole_data:/backup/pihole_data:ro
+      - vaultwarden_data:/backup/vaultwarden_data:ro
+    restart: unless-stopped
+
 volumes:
-  pihole_data:
-  vaultwarden_data:
-  grafana_data:
-  prometheus_data:
-  qbittorrent_config:
-  homeassistant_config:
-  heimdall_config:
-  minecraft_data:
+  heimdall_config: {}
+  homeassistant_config: {}
+  qbittorrent_config: {}
+  grafana_data: {}
+  minecraft_data: {}
+  pihole_data: {}
+  prometheus_data: {}
+  vaultwarden_data: {}
