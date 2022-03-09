@@ -1,0 +1,66 @@
+version: '3.1'
+
+services:
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    volumes:
+      - 'grafana_data:/var/lib/grafana'
+      - './grafana:/etc/grafana/provisioning/'
+    network_mode: host
+    pid: host
+    restart: unless-stopped
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    volumes:
+      - 'prometheus_data:/prometheus'
+      - './prometheus:/etc/prometheus/'
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=90d'
+      - '--storage.tsdb.retention.size=16GB'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    network_mode: host
+    pid: host
+    restart: unless-stopped
+
+  cadvisor:
+    image: cadvisor
+    container_name: cadvisor
+    command: --docker_only=true
+    build:
+      context: cadvisor
+    privileged: true
+    volumes:
+      - '/:/rootfs:ro'
+      - '/var/run:/var/run:ro'
+      - '/sys:/sys:ro'
+      - '/var/lib/docker/:/var/lib/docker:ro'
+      - '/dev/disk/:/dev/disk:ro'
+    devices:
+      - '/dev/kmsg:/dev/kmsg'
+    ports:
+      - '8080:8080'
+    restart: unless-stopped
+
+  node_exporter:
+    container_name: node_exporter
+    image: quay.io/prometheus/node-exporter
+    container_name: node_exporter
+    command:
+      - '--path.rootfs=/host'
+    network_mode: host
+    pid: host
+    volumes:
+      - '/:/host:ro,rslave'
+    restart: unless-stopped
+
+volumes:
+  grafana_data: {}
+  prometheus_data: {}
+
