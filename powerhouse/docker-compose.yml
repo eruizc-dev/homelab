@@ -30,6 +30,18 @@ services:
       - 36330:36330
     restart: unless-stopped
 
+  # Github: <https://github.com/itzg/docker-minecraft-server>
+  minecraft:
+    image: itzg/minecraft-server
+    container_name: minecraft
+    ports:
+      - 25565:25565
+    volumes:
+      - ./minecraft/data:/data
+    env_file:
+      - ./minecraft/config.env
+    restart: unless-stopped
+
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
     container_name: cadvisor
