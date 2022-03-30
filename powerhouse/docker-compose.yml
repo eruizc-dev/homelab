@@ -1,6 +1,34 @@
-version: '3.1'
+version: '3.9'
 
 services:
+
+  heimdall:
+    container_name: heimdall
+    image: lscr.io/linuxserver/heimdall
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Argentina/Buenos_Aires
+    volumes:
+      - heimdall_config:/config
+    ports:
+      - 80:80
+    restart: unless-stopped
+
+  foldingathome:
+    image: lscr.io/linuxserver/foldingathome
+    container_name: folding_at_home
+    cpus: 8
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Argentina/Buenos_Aires
+    volumes:
+      - folding_at_home_config:/config
+    ports:
+      - 7396:7396
+      - 36330:36330
+    restart: unless-stopped
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
@@ -16,17 +44,20 @@ services:
     devices:
       - '/dev/kmsg:/dev/kmsg'
     ports:
-      - '8080:8080'
-    restart: unless-stopped
+      - 8080:8080
+    restart: always
 
   node_exporter:
     container_name: node_exporter
     image: quay.io/prometheus/node-exporter
-    container_name: node_exporter
     command:
       - '--path.rootfs=/host'
     network_mode: host
     pid: host
     volumes:
       - '/:/host:ro,rslave'
-    restart: unless-stopped
+    restart: always
+
+volumes:
+  heimdall_config: {}
+  folding_at_home_config: {}
