@@ -2,6 +2,31 @@ version: '3.9'
 
 services:
 
+  # Vaultwarden docs: <https://github.com/dani-garcia/vaultwarden/wiki/Using-Docker-Compose#caddy-with-dns-challenge>
+  caddy:
+    build:
+      context: caddy
+    container_name: caddy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_config:/config
+      - caddy_data:/data
+    env_file:
+      - ./caddy/secrets.env
+    restart: unless-stopped
+
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    environment:
+      - WEBSOCKET_ENABLED=true
+    volumes:
+      - ./vaultwarden/data:/data
+    restart: unless-stopped
+
   heimdall:
     container_name: heimdall
     image: lscr.io/linuxserver/heimdall
@@ -12,8 +37,9 @@ services:
     volumes:
       - heimdall_config:/config
     ports:
-      - 80:80
+     - 8000:80
     restart: unless-stopped
+
 
   foldingathome:
     image: lscr.io/linuxserver/foldingathome
@@ -71,5 +97,7 @@ services:
     restart: always
 
 volumes:
+  caddy_config: {}
+  caddy_data: {}
   heimdall_config: {}
   folding_at_home_config: {}
