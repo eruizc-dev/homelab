@@ -24,7 +24,7 @@ services:
     environment:
       - WEBSOCKET_ENABLED=true
     volumes:
-      - ./vaultwarden/data:/data
+      - vaultwarden_data:/data
     restart: unless-stopped
 
   heimdall:
@@ -99,5 +99,6 @@ services:
 volumes:
   caddy_config: {}
   caddy_data: {}
+  vaultwarden_data: {}
   heimdall_config: {}
   folding_at_home_config: {}
