@@ -1,0 +1,104 @@
+version: '3.9'
+
+services:
+
+  # Vaultwarden docs: <https://github.com/dani-garcia/vaultwarden/wiki/Using-Docker-Compose#caddy-with-dns-challenge>
+  caddy:
+    build:
+      context: caddy
+    container_name: caddy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_config:/config
+      - caddy_data:/data
+    env_file:
+      - ./caddy/secrets.env
+    restart: unless-stopped
+
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    environment:
+      - WEBSOCKET_ENABLED=true
+    volumes:
+      - vaultwarden_data:/data
+    restart: unless-stopped
+
+  heimdall:
+    container_name: heimdall
+    image: lscr.io/linuxserver/heimdall
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Argentina/Buenos_Aires
+    volumes:
+      - heimdall_config:/config
+    ports:
+     - 8000:80
+    restart: unless-stopped
+
+
+  foldingathome:
+    image: lscr.io/linuxserver/foldingathome
+    container_name: folding_at_home
+    cpus: 8
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Argentina/Buenos_Aires
+    volumes:
+      - folding_at_home_config:/config
+    ports:
+      - 7396:7396
+      - 36330:36330
+    restart: unless-stopped
+
+  # Github: <https://github.com/itzg/docker-minecraft-server>
+  minecraft:
+    image: itzg/minecraft-server
+    container_name: minecraft
+    ports:
+      - 25565:25565
+    volumes:
+      - ./minecraft/data:/data
+    env_file:
+      - ./minecraft/config.env
+    restart: unless-stopped
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    command: --docker_only=true
+    privileged: true
+    volumes:
+      - '/:/rootfs:ro'
+      - '/var/run:/var/run:ro'
+      - '/sys:/sys:ro'
+      - '/var/lib/docker/:/var/lib/docker:ro'
+      - '/dev/disk/:/dev/disk:ro'
+    devices:
+      - '/dev/kmsg:/dev/kmsg'
+    ports:
+      - 8080:8080
+    restart: always
+
+  node_exporter:
+    container_name: node_exporter
+    image: quay.io/prometheus/node-exporter
+    command:
+      - '--path.rootfs=/host'
+    network_mode: host
+    pid: host
+    volumes:
+      - '/:/host:ro,rslave'
+    restart: always
+
+volumes:
+  caddy_config: {}
+  caddy_data: {}
+  vaultwarden_data: {}
+  heimdall_config: {}
+  folding_at_home_config: {}
