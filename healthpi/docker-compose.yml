@@ -2,6 +2,22 @@ version: '3.1'
 
 services:
 
+  # More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
+  pihole:
+    container_name: pi-hole
+    image: pihole/pihole
+    ports:
+      - '53:53/tcp'
+      - '53:53/udp'
+      - '80:80/tcp'
+    environment:
+      IPv6: 'false'
+      TZ: 'America/Argentina/Buenos_Aires'
+    volumes:
+      - './pi-hole/pihole:/etc/pihole'
+      - './pi-hole/dnsmasq.d:/etc/dnsmasq.d'
+    restart: unless-stopped
+
   grafana:
     container_name: grafana
     image: grafana/grafana
